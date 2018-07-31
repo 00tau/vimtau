@@ -61,7 +61,7 @@ set history=50
 set showcmd
 set hidden
 set autoread
-set joinspaces
+set nojoinspaces
 
 if has('mouse')
   set mouse=a
@@ -129,6 +129,11 @@ autocmd GUIEnter * set visualbell t_vb=
 "---------------------------------------
 " Set leader / localleader
 "---------------------------------------
+let mapleader = "-"
+nnoremap <leader>v :w!<cr>
+nnoremap <leader>w :wa!<cr>
+nnoremap <leader>q ZZ
+
 let maplocalleader = "\\"
 
 "------------------------------------
@@ -137,15 +142,19 @@ let maplocalleader = "\\"
 nmap <C-c>r <Plug>SetTmuxVars
 
 " Send current line to tmux
-au FileType sh,zsh,markdown,python,pyrstnoweb nnoremap <buffer> <space> yy:call SendToTmux(@")<cr>j
+au FileType sh,zsh,markdown,python,pyrstnoweb,pytexnoweb,rst nnoremap <buffer> <space> yy:call SendToTmux(@")<cr>j
 
 " Send current paragraph or selection to tmux
-au FileType sh,zsh,markdown vnoremap <buffer> <cr> y:call SendToTmux(@")<cr>
-au FileType sh,zsh,markdown nnoremap <buffer> <cr> yap:call SendToTmux(@")<cr>
+au FileType sh,zsh,markdown,rst vnoremap <buffer> <cr> y:call SendToTmux(@")<cr>
+au FileType sh,zsh,markdown,rst nnoremap <buffer> <cr> yap:call SendToTmux(@")<cr>
 
 " Send current paragraph or selection to tmux (running ipython) and execute
-au FileType python,pyrstnoweb vmap <buffer> <cr> "+y:call SendToTmux('%paste')<cr>}<space>
-au FileType python,pyrstnoweb nmap <buffer> <cr> "+yap:call SendToTmux('%paste')<cr>}<space>
+au FileType python,pyrstnoweb,pytexnoweb vmap <buffer> <cr> "+y:call SendToTmux('%paste')<cr>}<space>
+au FileType python,pyrstnoweb,pytexnoweb nmap <buffer> <cr> "+yap:call SendToTmux('%paste')<cr>}<space>
+
+" Call make
+au FileType pyrstnoweb nmap <buffer> <C-cr> :w<cr>:call SendToTmux('make')<cr>}<space>
+au FileType rst nmap <buffer> <C-space> gwip:w<cr>:call SendToTmux('./make_the_docs')<cr>}<space>
 
 "------------------------------------
 " Statusbar
@@ -167,10 +176,10 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " Cntr-P
 "---------------------------------------
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_cmd = 'CtrlPBuffer'
 let g:ctrlp_working_path_mode = 'ra'
 
-set wildignore+=*/tmp/*,*/pkg/*,*.so,*.swp,*.zip,*.pdf,*.aux,*.bbl,*.blg,*.tuc,*.log
+set wildignore+=*/tmp/*,*/pkg/*,*.so,*.swp,*.zip,*.pdf,*.aux,*.bbl,*.blg,*.tuc,*.log,*/build/*
 
 "------------------------------------
 " Markdown
@@ -196,10 +205,18 @@ let g:vimrplugin_pandoc_args = "--toc"
 au BufRead,BufNewFile .followup,.article,.letter,/tmp/pico*,nn.*,snd.*,/tmp/mutt* :set ft=mail | :set spell
 
 "------------------------------------
+" RST and PYRSTNOWEB
+"------------------------------------
+au BufRead,BufNewFile *.txt :set ft=rst
+
+"------------------------------------
 " Python
 "------------------------------------
 au BufRead,BufNewFile *.py :set ft=python
 au FileType python set tw=72
+
+au FileType pyrstnoweb,context map <buffer> <c-f> :set ft=pyrstnoweb<cr>
+au FileType pyrstnoweb,context map <buffer> <c-b> :set ft=context<cr>
 
 "------------------------------------
 " R-plugin
@@ -296,8 +313,11 @@ noremap M `
 " Move to the last character of a paragraph (f), or do the same and
 " enter insert mode and add a space, too (F).  This is particular useful
 " when writing prose (TeX, etc.).
-noremap f }k$
-nmap F fa<space>
+
+noremap f z
+noremap F z=
+noremap z }k$
+noremap Z }k$a<space>
 
 " Nice movement with wrapped lines
 noremap j gj
@@ -307,4 +327,4 @@ noremap k gk
 nnoremap <C-space> gwip
 
 " Undo highlighting
-noremap <C-cr> :nohl<cr>
+noremap <C-cr> :nohl<cr>:wa<cr>

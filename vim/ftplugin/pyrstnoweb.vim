@@ -1,22 +1,12 @@
-" local mappings
-compiler context
-
-" Compile
-nnoremap <buffer> <space> gwap:w<cr>:silent make %<cr>:silent ! xdotool search --class mupdf key --window \%\@ r<cr>
-nnoremap <buffer> <cr> :call SendToTmux('make pdf')<cr>}yy:call SendToTmux(@")<cr>{
-
-nnoremap <buffer> <LocalLeader>k :silent ! xdotool search --class mupdf key --window \%\@ k<cr>
-nnoremap <buffer> <LocalLeader>j :silent ! xdotool search --class mupdf key --window \%\@ j<cr>
-
 " Moving around
 nnoremap <buffer> ]] /\\section<cr>:nohl<cr>
 nnoremap <buffer> [[ ?\\section<cr>:nohl<cr>
 
-" start-stop formula-block
+" Start-stop formula-block
 nnoremap <buffer> <LocalLeader>ff A\placeformula<cr><cr>\startformula<cr>\stopformula<esc>O
 inoremap <buffer> <LocalLeader>ff \placeformula<cr><cr>\startformula<cr>\stopformula<esc>O
 
-" start-stop aligned formula-block
+" Start-stop aligned formula-block
 nnoremap <buffer> <LocalLeader>fa A\placeformula<cr><cr>\startformula \startalign<cr>\stopalign \stopformula<esc>O
 inoremap <buffer> <LocalLeader>fa \placeformula<cr><cr>\startformula \startalign<cr>\stopalign \stopformula<esc>O
 
@@ -37,12 +27,12 @@ inoremap <buffer> <LocalLeader>sc {\sc }<Left>
 inoremap <buffer> <LocalLeader>tt {\ss }<Left>
 inoremap <buffer> <LocalLeader>ss {\tt }<Left>
 
-" stop smart indentation, does not work well with TeX
+" Stop smart indentation, does not work well with TeX
 set autoindent
 set nocindent
 set nosmartindent
 
-" enable spell checking
+" Enable spell checking
 syn spell toplevel
 setlocal spell spelllang=en_gb,de
 set spell
