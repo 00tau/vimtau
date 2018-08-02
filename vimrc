@@ -5,11 +5,32 @@ scriptencoding utf-8
 set guioptions=a
 
 "------------------------------------
-" pathogen
+" vim-plug
 "------------------------------------
-runtime bundle/pathogen/autoload/pathogen.vim
-"let g:pathogen_disabled = ['']
-call pathogen#infect()
+" Specify a directory for plugins
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'coyotebush/vim-pweave'
+Plug 'tpope/vim-surround'
+Plug 'brauner/vimtux'
+
+" Initialize plugin system
+call plug#end()
+
+"------------------------------------
+" EasyAlign
+"------------------------------------
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 "------------------------------------
 " Eye candy
@@ -51,9 +72,9 @@ au FileType text,tex,context,markdown set nosmartindent
 "------------------------------------
 " Behaviour
 "------------------------------------
-set directory=~/.tmp
-set backupdir=~/.tmp
-set undodir=~/.tmp
+set directory=~/.vimtmp/directory
+set backupdir=~/.vimtmp/backupdir
+set undodir=~/.vimtmp/undodir
 set undolevels=1000
 set undoreload=1000
 set undofile
@@ -159,7 +180,8 @@ au FileType rst nmap <buffer> <C-space> gwip:w<cr>:call SendToTmux('./make_the_d
 "------------------------------------
 " Statusbar
 "------------------------------------
-set statusline=%<\ %f\ %{fugitive#statusline()}\ %=type=%Y\ pos=%04l,%04v\ %p%%\ len=%L
+set statusline=%<\ %f\ %{FugitiveStatusline()}\ %=type=%Y\ pos=%04l,%04v\ %p%%\ len=%L
+
 set laststatus=2
 
 hi statusline guibg=#c5c8c6 guifg=#2d3c46 ctermbg=15 ctermfg=0
