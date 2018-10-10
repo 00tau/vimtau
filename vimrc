@@ -180,14 +180,14 @@ au FileType rst nmap <buffer> <C-space> gwip:w<cr>:call SendToTmux('./make_the_d
 "------------------------------------
 " Statusbar
 "------------------------------------
-if !exists('*fugitive#statusline')
-  function! fugitive#statusline()
-      return ''
-  endfunction
-endif
+" if !exists('*fugitive#statusline')
+"   function! fugitive#statusline()
+"       return ''
+"   endfunction
+" endif
 
-set statusline=%<\ %f\ %{FugitiveStatusline()}\ %=type=%Y\ pos=%04l,%04v\ %p%%\ len=%L
-"set statusline=%<\ %f\ %=type=%Y\ pos=%04l,%04v\ %p%%\ len=%L
+"set statusline=%<\ %f\ %{FugitiveStatusline()}\ %=type=%Y\ pos=%04l,%04v\ %p%%\ len=%L
+set statusline=%<\ %f\ %=type=%Y\ pos=%04l,%04v\ %p%%\ len=%L
 
 set laststatus=2
 

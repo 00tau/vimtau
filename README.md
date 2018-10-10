@@ -4,11 +4,10 @@
 Introduction
 ------------
 
-`vimτ` bundles a collection of different vim plugins together, which I
-assume useful and which work nicely together.  See the folder
-`vim/bundle` for details.  It also changes some defaults in `vimrc`,
-sets an eye pleasing colour scheme, and adds some useful additional key
-bindings.
+`vimτ` is a collection of different plugins that I find useful and that
+work nicely together. It changes some defaults in the `vimrc`, sets a
+pleasing colour scheme, and adds some useful additional key bindings
+that work well when using a Dvorak layout.
 
 Why use it
 ----------
